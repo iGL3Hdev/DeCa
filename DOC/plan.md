@@ -13,6 +13,7 @@ Al cerrar cada fase: checklist y commit.
   - Backend en local → `jdbc:mysql://localhost:3308/deca_manager`
   - Backend dentro de Docker → `jdbc:mysql://mysql:3306/deca_manager`
 - Maven Wrapper (`./mvnw`) en lugar de instalar Maven.
+- Spring Boot 4.1.1 (starters nuevos: `webmvc`, `flyway`; Jackson 3 → paquetes `tools.jackson`). Paquete raíz `com.decamanager`.
 - Migraciones con Flyway (no `ddl-auto=update`).
 - DTOs (records) por dominio; no exponer entidades JPA.
 - Spring Security no se añade hasta la fase de autenticación.
@@ -38,12 +39,13 @@ Al cerrar cada fase: checklist y commit.
 - [ ] `README.md` y primer commit
 
 ## Fase 1 — Backend base + Vehículos
-- [ ] Generar proyecto en Spring Initializr (web, data-jpa, mysql, validation, flyway) → `backend/`
-- [ ] `application.yml` (conexión a :3308)
-- [ ] Migración `V1__esquema.sql` (4 tablas de la spec)
-- [ ] `vehiculo/`: Entity, Repository, Service, Controller (`PATCH baja`, `?activo=`)
-- [ ] `@RestControllerAdvice` para errores
-- [ ] Probar con curl / archivo `.http`
+- [x] Generar proyecto en Spring Initializr (Boot 4.1.1; web, data-jpa, mysql, validation, flyway) → `backend/`
+- [x] `application.yml` (conexión a :3308)
+- [x] Migración `V1__esquema.sql` (4 tablas de la spec)
+- [x] `vehiculo/`: Entity, Repository, DTOs, Service, Controller (`PATCH baja`, `?activo=`)
+- [x] `@RestControllerAdvice` para errores (`common/GlobalExceptionHandler`, ProblemDetail)
+- [x] Probar con curl (13 casos OK: 201, 400, 404, 409, filtros, baja)
+- [ ] Archivo `.http` con las pruebas guardadas (opcional)
 - [ ] Commit
 
 ## Fase 2 — Empresas

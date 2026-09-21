@@ -1,0 +1,9 @@
+package com.decamanager.common;
+
+public class RecursoNoEncontradoException extends RuntimeException{
+
+     public RecursoNoEncontradoException(String mensaje) {
+        super(mensaje);
+    }
+    
+}

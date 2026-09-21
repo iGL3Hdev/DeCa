@@ -1,0 +1,19 @@
+spring:
+    application:
+        name: deca-manager
+
+    datasource:
+        url: jdbc:mysql://localhost:3308/deca_manager
+        username: deca_user
+        password: ${MYSQL_PASSWORD:admin123}
+
+    jpa:
+        hibernate:
+            ddl-auto: validate
+        open-in-view: false
+
+    flyway:
+        enabled: true
+    
+deca:
+    base-url: ${DECA_BASE_URL:http://localhost:8080}
