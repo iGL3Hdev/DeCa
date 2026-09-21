@@ -1,0 +1,19 @@
+# Secretos
+.env
+
+# Backend
+backend/target/
+.idea/
+*.iml
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# PDFs generados en local
+backend/documentos/
+
+# SO / editor
+.DS_Store
+Thumbs.db
+.vscode/
