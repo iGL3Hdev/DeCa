@@ -3,7 +3,8 @@
 Proyecto personal de aprendizaje: gestión de Documentos de Control
 Administrativo (DeCA). Stack: React + TypeScript, Spring Boot, MySQL, Docker.
 
-Especificación completa en [especificacion.md](especificacion.md).
+Especificación completa en [DOC/especificacion.md](DOC/especificacion.md).
+Plan de desarrollo paso a paso en [DOC/plan.md](DOC/plan.md).
 
 ## Arranque (estado actual)
 
