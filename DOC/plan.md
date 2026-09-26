@@ -45,12 +45,13 @@ Al cerrar cada fase: checklist y commit.
 - [x] `vehiculo/`: Entity, Repository, DTOs, Service, Controller (`PATCH baja`, `?activo=`)
 - [x] `@RestControllerAdvice` para errores (`common/GlobalExceptionHandler`, ProblemDetail)
 - [x] Probar con curl (13 casos OK: 201, 400, 404, 409, filtros, baja)
-- [ ] Archivo `.http` con las pruebas guardadas (opcional)
-- [ ] Commit
+- [x] Archivo `.http` con las pruebas guardadas (opcional)
+- [x] Commit
 
 ## Fase 2 — Empresas
-- [ ] `empresa/`: Entity, Repository, Service, Controller (mismo patrón)
-- [ ] Error 409 al borrar empresa con transportes
+- [x] `empresa/`: Entity, Repository, DTOs, Service, Controller (mismo patrón)
+- [x] Error 409 al borrar empresa con transportes (`flush()` + captura de `DataIntegrityViolationException`)
+- [x] Probado con curl (15 casos OK)
 - [ ] Commit
 
 ## Fase 3 — Transportes
