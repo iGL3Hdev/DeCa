@@ -52,12 +52,15 @@ Al cerrar cada fase: checklist y commit.
 - [x] `empresa/`: Entity, Repository, DTOs, Service, Controller (mismo patrón)
 - [x] Error 409 al borrar empresa con transportes (`flush()` + captura de `DataIntegrityViolationException`)
 - [x] Probado con curl (15 casos OK)
-- [ ] Commit
+- [x] Commit
 
 ## Fase 3 — Transportes
-- [ ] Entity con `@ManyToOne`, DTOs
-- [ ] Filtros `?estado=`, `?fecha_desde=`, `?fecha_hasta=`
-- [ ] `PUT` solo si está en BORRADOR
+- [x] `EstadoTransporte` (enum, `@Enumerated(STRING)`) y `Entity` con `@ManyToOne` (FetchType.LAZY) a Empresa (cargador/transportista) y Vehiculo
+- [x] Repository con `@Query` JPQL para filtros opcionales combinables
+- [x] DTOs: `TransporteRequest` (ids) y `TransporteResponse` (con resúmenes anidados de empresa/vehículo)
+- [x] Filtros `?estado=`, `?fechaDesde=`, `?fechaHasta=`
+- [x] `PUT` solo si está en BORRADOR (409 en otro caso)
+- [x] Probado con curl (13 casos OK: 201, 404 por ids inexistentes, 400 por peso 0, filtros, 409 en GENERADO)
 - [ ] Commit
 
 ## Fase 4 — Validaciones
