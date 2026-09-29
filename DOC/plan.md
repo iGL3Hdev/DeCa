@@ -74,9 +74,13 @@ Al cerrar cada fase: checklist y commit.
 - [x] Commit
 
 ## Fase 5 — Frontend base
-- [ ] `npm create vite` (React + TS) → `frontend/`
-- [ ] Router, `api/client.ts`, `types/`, proxy a :8080
-- [ ] Pantalla Vehículos (`Table`, formulario)
+- [x] `npm create vite` (React + TS + ESLint) → `frontend/`
+- [x] Proxy `/api` → :8080 en `vite.config.ts` (sin CORS en backend)
+- [x] `types/index.ts`, `api/client.ts` (fetch + ApiError), `api/vehiculos.ts`
+- [x] `components/Table.tsx` genérico
+- [x] Pantalla Vehículos (`pages/Vehiculos.tsx`: alta, listado, baja)
+- [x] Router en `App.tsx` (`/`, `/vehiculos`)
+- [x] Probado en navegador: alta, duplicado (mensaje 409 del backend), baja
 - [ ] Commit
 
 ## Fase 6 — Frontend transportes
