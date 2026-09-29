@@ -61,12 +61,17 @@ Al cerrar cada fase: checklist y commit.
 - [x] Filtros `?estado=`, `?fechaDesde=`, `?fechaHasta=`
 - [x] `PUT` solo si está en BORRADOR (409 en otro caso)
 - [x] Probado con curl (13 casos OK: 201, 404 por ids inexistentes, 400 por peso 0, filtros, 409 en GENERADO)
-- [ ] Commit
+- [x] Commit
 
 ## Fase 4 — Validaciones
-- [ ] Bean Validation en DTOs (obligatorios, peso > 0, NIF)
-- [ ] Regla fecha carga ≤ fecha descarga
-- [ ] Commit
+- [x] Bean Validation en DTOs (obligatorios, peso > 0) — ya cubierto en fases 1-3
+- [x] Regla fecha carga ≤ fecha descarga: validación a nivel de clase (`@FechasCoherentes` +
+      `FechasCoherentesValidator`) sobre `TransporteRequest`
+- [x] Fix en `GlobalExceptionHandler`: los errores de clase (`ObjectError`, sin campo) no los
+      recogía `getFieldErrors()`; ahora también se vuelcan `getGlobalErrors()` al mapa `errores`
+- [x] Probado con curl (fechaCarga > fechaDescarga → 400 con mensaje; mismo día y fechaCarga <
+      fechaDescarga → 201; combinado con peso 0 → ambos errores en el mismo 400)
+- [x] Commit
 
 ## Fase 5 — Frontend base
 - [ ] `npm create vite` (React + TS) → `frontend/`

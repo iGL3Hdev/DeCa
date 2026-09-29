@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+@FechasCoherentes
 public record TransporteRequest (
 
     @NotNull Long cargadorId,

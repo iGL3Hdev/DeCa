@@ -32,8 +32,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ProblemDetail validacion(MethodArgumentNotValidException ex) {
         Map<String, String> errores = new LinkedHashMap<>();
+        // Errores atados a un campo concreto (@NotBlank, @Size, @DecimalMin...)
         ex.getBindingResult().getFieldErrors()
                 .forEach(e -> errores.put(e.getField(), e.getDefaultMessage()));
+        // Errores a nivel de clase (p. ej. @FechasCoherentes), sin campo asociado
+        ex.getBindingResult().getGlobalErrors()
+                .forEach(e -> errores.put(e.getObjectName(), e.getDefaultMessage()));
         ProblemDetail problema = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,
                 "Datos de entrada no válidos");
         problema.setProperty("errores", errores);
