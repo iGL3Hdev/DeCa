@@ -1,5 +1,7 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import { Vehiculos } from "./pages/Vehiculos";
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import { Dashboard } from './pages/Dashboard'
+import { Vehiculos } from './pages/Vehiculos'
+import { TransporteForm } from './pages/TransporteForm'
 import './App.css'
 
 function App() {
@@ -9,11 +11,13 @@ function App() {
         <Link to="/">Dashboard</Link> | <Link to="/vehiculos">Vehículos</Link>
       </nav>
       <Routes>
-        <Route path="/" element={<p>Dashboard (pendiente, Fase6)</p>} />
+        <Route path="/" element={<Dashboard />} />
         <Route path="/vehiculos" element={<Vehiculos />} />
+        <Route path="/transportes/nuevo" element={<TransporteForm />} />
       </Routes>
     </BrowserRouter>
   )
 }
 
 export default App
+

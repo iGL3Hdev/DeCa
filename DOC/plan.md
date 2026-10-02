@@ -81,13 +81,20 @@ Al cerrar cada fase: checklist y commit.
 - [x] Pantalla Vehículos (`pages/Vehiculos.tsx`: alta, listado, baja)
 - [x] Router en `App.tsx` (`/`, `/vehiculos`)
 - [x] Probado en navegador: alta, duplicado (mensaje 409 del backend), baja
-- [ ] Commit
+- [x] Commit
 
 ## Fase 6 — Frontend transportes
-- [ ] Dashboard (listado)
-- [ ] `TransporteForm` con react-hook-form + zod
-- [ ] `Select` async y `EmpresaModal`
-- [ ] Commit
+- [x] `react-hook-form` + `zod` + `@hookform/resolvers` instalados
+- [x] Tipos y `api/empresas.ts`, `api/transportes.ts`
+- [x] `components/Select.tsx` (`SelectAsync`, con `recargarSenal` para refrescar tras crear empresa)
+- [x] `components/EmpresaModal.tsx` (crear empresa inline, callbacks `onCreada`/`onCerrar`)
+- [x] `pages/TransporteForm.tsx`: esquema zod (equivalente a Bean Validation + `@FechasCoherentes`
+      del backend vía `.refine`), `Controller` para los 3 selects, `register` para el resto
+- [x] `pages/Dashboard.tsx` (listado de transportes + botón "Nuevo transporte")
+- [x] Rutas en `App.tsx` (`/`, `/vehiculos`, `/transportes/nuevo`)
+- [x] Probado en navegador: crear empresa inline, seleccionar vehículo, guardar transporte en
+      BORRADOR, ver fila en Dashboard
+- [x] Commit
 
 ## Fase 7 — PDF
 - [ ] Elegir librería (OpenPDF / PDFBox)
