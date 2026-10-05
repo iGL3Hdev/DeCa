@@ -17,3 +17,4 @@ spring:
     
 deca:
     base-url: ${DECA_BASE_URL:http://localhost:8080}
+    directorio-documentos: ${DECA_DOCUMENTOS_DIR:./documentos}

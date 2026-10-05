@@ -97,9 +97,16 @@ Al cerrar cada fase: checklist y commit.
 - [x] Commit
 
 ## Fase 7 — PDF
-- [ ] Elegir librería (OpenPDF / PDFBox)
-- [ ] `PdfGenerator` con datos del transporte
-- [ ] Guardado en disco (`documentos/`)
+- [x] Librería elegida: OpenPDF (API de alto nivel: párrafos/tablas/imágenes, encaja mejor que
+      PDFBox de cara al QR incrustado de la Fase 8)
+- [x] `deca.directorio-documentos` en `application.yml` + `DecaProperties`
+      (`@ConfigurationProperties` + `@EnableConfigurationProperties`)
+- [x] `PdfGenerator` (genera el PDF en memoria a partir de la entidad `Transporte`, con los datos
+      del art. 6 de la Orden FOM/2861/2012: cargador, transportista, vehículo, fechas, lugares,
+      mercancía y notas)
+- [x] Verificado con un test temporal (generó un PDF real, revisado visualmente y luego
+      eliminado) — el guardado en disco de verdad (`documentos/`) se hará en la Fase 8, dentro
+      de `DecaService`, junto con el QR y el endpoint de generación
 - [ ] Commit
 
 ## Fase 8 — QR, URL pública y almacenamiento
@@ -109,6 +116,17 @@ Al cerrar cada fase: checklist y commit.
 - [ ] `GET /api/deca/{token}` (PDF inline, público)
 - [ ] `GET /api/documentos` y `/{id}`
 - [ ] Front: `DocumentoDetalle` (PDF, QR, copiar URL)
+- [ ] Commit
+
+## Fase 8.5 — Estilo visual del frontend
+Ahora mismo el frontend es HTML sin estilos (fondo negro por defecto del navegador, inputs y
+selects sueltos). Dejarlo para después de cerrar toda la funcionalidad (Fases 7 y 8) y antes de
+dockerizar, para no rehacer estilos sobre pantallas que aún pueden cambiar.
+- [ ] Decidir enfoque: CSS propio simple (cards, espaciados, tipografía) o una librería ligera
+      (p. ej. solo clases utilitarias)
+- [ ] Estilos base: fondo, tipografía, contenedor, navegación
+- [ ] Cards/tablas con bordes y espaciado para Dashboard y Vehículos
+- [ ] Formularios (TransporteForm, EmpresaModal) con aspecto cuidado
 - [ ] Commit
 
 ## Fase 9 — Dockerización completa
