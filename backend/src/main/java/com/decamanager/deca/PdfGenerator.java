@@ -10,6 +10,7 @@ import com.lowagie.text.Document;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
+import com.lowagie.text.Image;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
@@ -22,7 +23,7 @@ public class PdfGenerator {
 
     private static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public byte[] generar(Transporte transporte) {
+    public byte[] generar(Transporte transporte, byte[] imagenQr, String urlPublica) {
         try (ByteArrayOutputStream salida = new ByteArrayOutputStream()) {
             Document documento = new Document(PageSize.A4, 40, 40, 50, 40);
             PdfWriter.getInstance(documento, salida);
@@ -31,6 +32,7 @@ public class PdfGenerator {
             escribirCabecera(documento, transporte);
             escribirDatosTransporte(documento, transporte);
             escribirDatosMercancia(documento, transporte);
+            escribirQr(documento, imagenQr, urlPublica);
 
             documento.close();
             return salida.toByteArray();
@@ -91,6 +93,19 @@ public class PdfGenerator {
         documento.add(tabla);
     }
 
+    private void escribirQr(Document documento, byte[] imagenQr, String urlPublica) throws Exception {
+        Image qr = Image.getInstance(imagenQr);
+        qr.scaleToFit(120, 120);
+        qr.setAlignment(Element.ALIGN_CENTER);
+        qr.setSpacingBefore(20);
+        documento.add(qr);
+
+        Font fuenteUrl = FontFactory.getFont(FontFactory.HELVETICA, 8);
+        Paragraph url = new Paragraph(urlPublica, fuenteUrl);
+        url.setAlignment(Element.ALIGN_CENTER);
+        documento.add(url);
+    }
+
     private void agregarFila(PdfPTable tabla, String etiqueta, String valor) {
         Font fuenteEtiqueta = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
         Font fuenteValor = FontFactory.getFont(FontFactory.HELVETICA, 10);
@@ -107,4 +122,3 @@ public class PdfGenerator {
         tabla.addCell(celdaValor);
     }
 }
-

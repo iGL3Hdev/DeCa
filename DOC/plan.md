@@ -107,15 +107,26 @@ Al cerrar cada fase: checklist y commit.
 - [x] Verificado con un test temporal (generó un PDF real, revisado visualmente y luego
       eliminado) — el guardado en disco de verdad (`documentos/`) se hará en la Fase 8, dentro
       de `DecaService`, junto con el QR y el endpoint de generación
-- [ ] Commit
+- [x] Commit
 
 ## Fase 8 — QR, URL pública y almacenamiento
-- [ ] `QrGenerator` (ZXing) incrustado en el PDF
-- [ ] Token UUID + `DECA_BASE_URL`
-- [ ] `POST /api/transportes/{id}/generar-deca`
-- [ ] `GET /api/deca/{token}` (PDF inline, público)
-- [ ] `GET /api/documentos` y `/{id}`
-- [ ] Front: `DocumentoDetalle` (PDF, QR, copiar URL)
+- [x] Dependencia ZXing (`core` + `javase`)
+- [x] `DocumentoDeca` (`@OneToOne` con Transporte, `unique=true`) + `DocumentoDecaRepository`
+      (`findByUrlPublica`, `findByTransporteId`)
+- [x] `QrGenerator` (ZXing → PNG en memoria) incrustado en el PDF (`PdfGenerator` amplia su firma
+      con `imagenQr` + `urlPublica`)
+- [x] `DecaService.generar()`: busca transporte, 409 si ya GENERADO, token UUID + `DECA_BASE_URL`,
+      genera QR+PDF, guarda en disco (`guardarEnDisco`), marca transporte GENERADO, crea
+      `DocumentoDeca`
+- [x] `POST /api/transportes/{id}/generar-deca`
+- [x] `GET /api/deca/{token}` (PDF inline, público — pendiente excluir con `permitAll()` en Fase 11)
+- [x] `GET /api/documentos` y `/{id}`
+- [x] Fix: `DocumentoDeca.fechaCreacion` quedaba `null` (Hibernate mandaba NULL explícito en el
+      INSERT y pisaba el `DEFAULT CURRENT_TIMESTAMP` de MySQL) → se fija en el constructor Java
+- [x] Probado con curl: generar DeCA (201, fechaCreacion real), 409 al regenerar, 404 transporte
+      inexistente, descarga pública (200, Content-Type/Disposition correctos, QR visible y
+      apuntando a la URL), 404 token inexistente, listado y detalle de documentos
+- [ ] Front: `DocumentoDetalle` (PDF, QR, copiar URL) — pendiente
 - [ ] Commit
 
 ## Fase 8.5 — Estilo visual del frontend
