@@ -1,21 +1,44 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Table } from '../components/Table'
 import { transportesApi } from '../api/transportes'
+import { documentosApi } from '../api/documentos'
+import { ApiError } from '../api/client'
 import type { Transporte } from '../types'
 
 export function Dashboard() {
+  const navigate = useNavigate()
   const [transportes, setTransportes] = useState<Transporte[]>([])
   const [cargando, setCargando] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [generando, setGenerando] = useState<number | null>(null)
 
-  useEffect(() => {
+  function cargar() {
+    setCargando(true)
     transportesApi
       .listar()
       .then(setTransportes)
       .catch(() => setError('No se pudieron cargar los transportes'))
       .finally(() => setCargando(false))
+  }
+
+  useEffect(() => {
+    cargar()
   }, [])
+
+  async function generarDeca(transporteId: number) {
+    setError(null)
+    setGenerando(transporteId)
+    try {
+      const documento = await documentosApi.generar(transporteId)
+      navigate(`/documentos/${documento.id}`)
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : 'Error al generar el DeCA')
+      cargar()
+    } finally {
+      setGenerando(null)
+    }
+  }
 
   return (
     <div>
@@ -40,6 +63,21 @@ export function Dashboard() {
             { encabezado: 'Transportista', render: (t) => t.transportista.nombre },
             { encabezado: 'Vehículo', render: (t) => t.vehiculo.matricula },
             { encabezado: 'Estado', render: (t) => t.estado },
+            {
+              encabezado: 'Acciones',
+              render: (t) =>
+                t.estado === 'BORRADOR' ? (
+                  <button
+                    type="button"
+                    disabled={generando === t.id}
+                    onClick={() => generarDeca(t.id)}
+                  >
+                    {generando === t.id ? 'Generando...' : 'Generar DeCA'}
+                  </button>
+                ) : (
+                  <Link to={`/documentos/por-transporte/${t.id}`}>Ver documento</Link>
+                ),
+            },
           ]}
         />
       )}

@@ -71,3 +71,12 @@ export interface TransporteRequest {
   mercanciaUnidad: string
   notas?: string | null
 }
+
+export interface DocumentoDeca {
+  id: number
+  transporteId: number
+  urlPublica: string
+  fechaCreacion: string | null
+  fechaModificacion: string | null
+  version: number
+}

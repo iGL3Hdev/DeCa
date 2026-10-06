@@ -126,7 +126,14 @@ Al cerrar cada fase: checklist y commit.
 - [x] Probado con curl: generar DeCA (201, fechaCreacion real), 409 al regenerar, 404 transporte
       inexistente, descarga pública (200, Content-Type/Disposition correctos, QR visible y
       apuntando a la URL), 404 token inexistente, listado y detalle de documentos
-- [ ] Front: `DocumentoDetalle` (PDF, QR, copiar URL) — pendiente
+- [x] `api/documentos.ts`, botón "Generar DeCA" en `Dashboard.tsx` (deshabilitado por fila mientras
+      genera, navega a la ficha al terminar)
+- [x] `pages/DocumentoDetalle.tsx` (datos, iframe con el PDF embebido, descargar, copiar URL
+      pública con `navigator.clipboard`)
+- [x] `pages/DocumentoPorTransporte.tsx` (ruta puente: busca el documento por `transporteId` y
+      redirige con `<Navigate replace>`, para que "Ver documento" no quede en el historial)
+- [x] Probado en navegador: generar DeCA desde el Dashboard, ver PDF embebido con QR, copiar URL,
+      volver y comprobar transporte en GENERADO, "Ver documento" redirige correctamente
 - [ ] Commit
 
 ## Fase 8.5 — Estilo visual del frontend
