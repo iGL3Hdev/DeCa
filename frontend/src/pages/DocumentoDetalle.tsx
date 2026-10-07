@@ -20,8 +20,8 @@ export function DocumentoDetalle() {
   }, [id])
 
 
-  if (cargando) return <p>Cargando...</p>
-  if ( error || !documento) return <p style={{ color: 'red'}}>{error ?? 'Documento no encontrado'}</p>
+  if (cargando) return <p className="texto-muted">Cargando...</p>
+  if (error || !documento) return <p className="mensaje-error">{error ?? 'Documento no encontrado'}</p>
 
   const urlPdf = `/api/deca/${documento.urlPublica}`
   const urlCompleta = `${window.location.origin}${urlPdf}`
@@ -34,37 +34,45 @@ export function DocumentoDetalle() {
 
   return (
     <div>
-        <p>
-            <Link to="/">← Volver al Dashboard</Link>
-        </p>
+      <div style={{ marginBottom: 20 }}>
+        <Link to="/">
+          <button type="button" className="secundario">← Volver al Dashboard</button>
+        </Link>
+      </div>
 
-        <h1>Documento DeCa</h1>
+      <h1>Documento <span className="sin-mayusculas">DeCA</span></h1>
 
-        <p>
-            <strong>Transporte:</strong> nº {documento.transporteId}
-        </p>
-        <p>
-            <strong>Fecha de creación:</strong>{' '}
-            {documento.fechaCreacion ? new Date(documento.fechaCreacion).toLocaleString() : '-'}
-        </p>
-        <p>
-            <strong>Versión:</strong> {documento.version}
-        </p>
-        
-        <div>
-            <a href={urlPdf} target="_blank" rel='noreferrer'>
-                <button type='button'>Descargar PDF</button>
-            </a>
-            <button type='button' onClick={copiaUrl} style={{ marginLeft: 8}}>
-                {copiado ? 'URL copiada ✓' : 'Copiar URL pública'}
-            </button>
+      <div className="card">
+        <div className="ficha-grid">
+          <div className="ficha-dato">
+            <label>Transporte</label>
+            <p>nº {documento.transporteId}</p>
+          </div>
+          <div className="ficha-dato">
+            <label>Fecha de creación</label>
+            <p>{documento.fechaCreacion ? new Date(documento.fechaCreacion).toLocaleString() : '—'}</p>
+          </div>
+          <div className="ficha-dato">
+            <label>Versión</label>
+            <p>{documento.version}</p>
+          </div>
         </div>
 
-        <p style={{ marginTop: 8, fontSize: 13, color: '#555' }}>{urlCompleta}</p>
-
-        <div style={{ marginTop: 16, border: '1px solid #ccc', height: 600}}>
-            <iframe src={urlPdf} title="Vista previa del DeCA" width="100%" height="100%" /> 
+        <div className="fila-botones">
+          <a href={urlPdf} target="_blank" rel="noreferrer">
+            <button type="button" className="primario">Descargar PDF</button>
+          </a>
+          <button type="button" className="secundario" onClick={copiaUrl}>
+            {copiado ? 'URL copiada ✓' : 'Copiar URL pública'}
+          </button>
         </div>
+
+        <p className="url-box">{urlCompleta}</p>
+      </div>
+
+      <div className="card card--sin-padding">
+        <iframe src={urlPdf} title="Vista previa del DeCA" className="pdf-preview" />
+      </div>
     </div>
   )
 }

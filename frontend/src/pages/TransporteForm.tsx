@@ -81,128 +81,149 @@ export function TransporteForm() {
     <div>
       <h1>Nuevo transporte</h1>
 
+      {errorEnvio && <p className="mensaje-error">{errorEnvio}</p>}
+
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label>Cargador</label>
-          <Controller
-            name="cargadorId"
-            control={control}
-            render={({ field }) => (
-              <SelectAsync
-                cargarOpciones={cargarEmpresas}
-                value={field.value}
-                onChange={field.onChange}
-                recargarSenal={recargarEmpresas}
+        <div className="card">
+          <h2>Partes del transporte</h2>
+          <div className="form-grid">
+            <div className="campo">
+              <label>Cargador</label>
+              <div className="campo-con-boton">
+                <Controller
+                  name="cargadorId"
+                  control={control}
+                  render={({ field }) => (
+                    <SelectAsync
+                      cargarOpciones={cargarEmpresas}
+                      value={field.value}
+                      onChange={field.onChange}
+                      recargarSenal={recargarEmpresas}
+                    />
+                  )}
+                />
+                <button type="button" className="secundario" onClick={() => setModalAbierto('cargador')}>
+                  + Nueva
+                </button>
+              </div>
+              {errors.cargadorId && <p className="error-campo">{errors.cargadorId.message}</p>}
+            </div>
+
+            <div className="campo">
+              <label>Transportista</label>
+              <div className="campo-con-boton">
+                <Controller
+                  name="transportistaId"
+                  control={control}
+                  render={({ field }) => (
+                    <SelectAsync
+                      cargarOpciones={cargarEmpresas}
+                      value={field.value}
+                      onChange={field.onChange}
+                      recargarSenal={recargarEmpresas}
+                    />
+                  )}
+                />
+                <button type="button" className="secundario" onClick={() => setModalAbierto('transportista')}>
+                  + Nueva
+                </button>
+              </div>
+              {errors.transportistaId && (
+                <p className="error-campo">{errors.transportistaId.message}</p>
+              )}
+            </div>
+
+            <div className="campo campo-full">
+              <label>Vehículo</label>
+              <Controller
+                name="vehiculoId"
+                control={control}
+                render={({ field }) => (
+                  <SelectAsync
+                    cargarOpciones={cargarVehiculos}
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                )}
               />
-            )}
-          />
-          <button type="button" onClick={() => setModalAbierto('cargador')}>
-            + Nueva empresa
+              {errors.vehiculoId && <p className="error-campo">{errors.vehiculoId.message}</p>}
+            </div>
+          </div>
+        </div>
+
+        <div className="card">
+          <h2>Fechas y lugares</h2>
+          <div className="form-grid">
+            <div className="campo campo-full">
+              <label>Fecha operación</label>
+              <input type="date" {...register('fechaOperacion')} />
+              {errors.fechaOperacion && <p className="error-campo">{errors.fechaOperacion.message}</p>}
+            </div>
+
+            <div className="campo">
+              <label>Lugar de carga</label>
+              <input placeholder="Madrid" {...register('lugarCarga')} />
+              {errors.lugarCarga && <p className="error-campo">{errors.lugarCarga.message}</p>}
+            </div>
+
+            <div className="campo">
+              <label>Fecha de carga</label>
+              <input type="date" {...register('fechaCarga')} />
+              {errors.fechaCarga && <p className="error-campo">{errors.fechaCarga.message}</p>}
+            </div>
+
+            <div className="campo">
+              <label>Lugar de descarga</label>
+              <input placeholder="Barcelona" {...register('lugarDescarga')} />
+              {errors.lugarDescarga && <p className="error-campo">{errors.lugarDescarga.message}</p>}
+            </div>
+
+            <div className="campo">
+              <label>Fecha de descarga</label>
+              <input type="date" {...register('fechaDescarga')} />
+              {errors.fechaDescarga && <p className="error-campo">{errors.fechaDescarga.message}</p>}
+            </div>
+          </div>
+        </div>
+
+        <div className="card">
+          <h2>Mercancía</h2>
+          <div className="form-grid">
+            <div className="campo campo-full">
+              <label>Naturaleza de la mercancía</label>
+              <input placeholder="Textil, maquinaria..." {...register('mercanciaNaturaleza')} />
+              {errors.mercanciaNaturaleza && (
+                <p className="error-campo">{errors.mercanciaNaturaleza.message}</p>
+              )}
+            </div>
+
+            <div className="campo">
+              <label>Peso</label>
+              <input type="number" step="0.01" {...register('mercanciaPeso', { valueAsNumber: true })} />
+              {errors.mercanciaPeso && <p className="error-campo">{errors.mercanciaPeso.message}</p>}
+            </div>
+
+            <div className="campo">
+              <label>Unidad</label>
+              <select {...register('mercanciaUnidad')}>
+                <option value="TM">TM</option>
+                <option value="KG">KG</option>
+                <option value="M3">M3</option>
+              </select>
+            </div>
+
+            <div className="campo campo-full">
+              <label>Notas</label>
+              <textarea placeholder="Opcional" {...register('notas')} />
+            </div>
+          </div>
+        </div>
+
+        <div className="form-acciones">
+          <button type="submit" className="primario" disabled={isSubmitting}>
+            {isSubmitting ? 'Guardando...' : 'Guardar borrador'}
           </button>
-          {errors.cargadorId && <p style={{ color: 'red' }}>{errors.cargadorId.message}</p>}
         </div>
-
-        <div>
-          <label>Transportista</label>
-          <Controller
-            name="transportistaId"
-            control={control}
-            render={({ field }) => (
-              <SelectAsync
-                cargarOpciones={cargarEmpresas}
-                value={field.value}
-                onChange={field.onChange}
-                recargarSenal={recargarEmpresas}
-              />
-            )}
-          />
-          <button type="button" onClick={() => setModalAbierto('transportista')}>
-            + Nueva empresa
-          </button>
-          {errors.transportistaId && (
-            <p style={{ color: 'red' }}>{errors.transportistaId.message}</p>
-          )}
-        </div>
-
-        <div>
-          <label>Vehículo</label>
-          <Controller
-            name="vehiculoId"
-            control={control}
-            render={({ field }) => (
-              <SelectAsync
-                cargarOpciones={cargarVehiculos}
-                value={field.value}
-                onChange={field.onChange}
-              />
-            )}
-          />
-          {errors.vehiculoId && <p style={{ color: 'red' }}>{errors.vehiculoId.message}</p>}
-        </div>
-
-        <div>
-          <label>Fecha operación</label>
-          <input type="date" {...register('fechaOperacion')} />
-          {errors.fechaOperacion && <p style={{ color: 'red' }}>{errors.fechaOperacion.message}</p>}
-        </div>
-
-        <div>
-          <label>Lugar de carga</label>
-          <input {...register('lugarCarga')} />
-          {errors.lugarCarga && <p style={{ color: 'red' }}>{errors.lugarCarga.message}</p>}
-        </div>
-
-        <div>
-          <label>Fecha de carga</label>
-          <input type="date" {...register('fechaCarga')} />
-          {errors.fechaCarga && <p style={{ color: 'red' }}>{errors.fechaCarga.message}</p>}
-        </div>
-
-        <div>
-          <label>Lugar de descarga</label>
-          <input {...register('lugarDescarga')} />
-          {errors.lugarDescarga && <p style={{ color: 'red' }}>{errors.lugarDescarga.message}</p>}
-        </div>
-
-        <div>
-          <label>Fecha de descarga</label>
-          <input type="date" {...register('fechaDescarga')} />
-          {errors.fechaDescarga && <p style={{ color: 'red' }}>{errors.fechaDescarga.message}</p>}
-        </div>
-
-        <div>
-          <label>Naturaleza de la mercancía</label>
-          <input {...register('mercanciaNaturaleza')} />
-          {errors.mercanciaNaturaleza && (
-            <p style={{ color: 'red' }}>{errors.mercanciaNaturaleza.message}</p>
-          )}
-        </div>
-
-        <div>
-          <label>Peso</label>
-          <input type="number" step="0.01" {...register('mercanciaPeso', { valueAsNumber: true })} />
-          {errors.mercanciaPeso && <p style={{ color: 'red' }}>{errors.mercanciaPeso.message}</p>}
-        </div>
-
-        <div>
-          <label>Unidad</label>
-          <select {...register('mercanciaUnidad')}>
-            <option value="TM">TM</option>
-            <option value="KG">KG</option>
-            <option value="M3">M3</option>
-          </select>
-        </div>
-
-        <div>
-          <label>Notas</label>
-          <textarea {...register('notas')} />
-        </div>
-
-        {errorEnvio && <p style={{ color: 'red' }}>{errorEnvio}</p>}
-
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Guardando...' : 'Guardar borrador'}
-        </button>
       </form>
 
       {modalAbierto && (

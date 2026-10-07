@@ -31,57 +31,52 @@ export function EmpresaModal({ onCreada, onCerrar }: EmpresaModalProps){
     }
 
     return (
-        <div
-            style={{
-                position: 'fixed',
-                inset: 0,
-                background: 'rgba(0,0,0,0.4)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-            }}
-        >
-            <div style={{ background: 'white', padding: 24, borderRadius: 8, minWidth: 320 }}>
+        <div className="modal-overlay">
+            <div className="modal-box">
                 <h2>Nueva empresa</h2>
                 <form onSubmit={guardar}>
-                    <div>
-                        <input 
-                            placeholder="Nombre"
+                    <div className="campo">
+                        <label>Nombre</label>
+                        <input
+                            placeholder="Transportes Norte SL"
                             value={nombre}
                             onChange={(e) => setNombre(e.target.value)}
                             required
                         />
                     </div>
-                    <div>
+                    <div className="campo">
+                        <label>NIF</label>
                         <input
-                            placeholder="NIF"
+                            placeholder="B12345678"
                             value={nif}
                             onChange={(e) => setNif(e.target.value)}
                             required
                         />
                     </div>
-                    <div>
+                    <div className="campo">
+                        <label>Domicilio</label>
                         <input
-                            placeholder="Domicilio (opcional)"
+                            placeholder="Opcional"
                             value={domicilio}
                             onChange={(e) => setDomicilio(e.target.value)}
                         />
                     </div>
-                    <div>
+                    <div className="campo">
+                        <label>Teléfono</label>
                         <input
-                            placeholder="Teléfono (opcional)"
+                            placeholder="Opcional"
                             value={telefono}
                             onChange={(e) => setTelefono(e.target.value)}
                         />
                     </div>
 
-                    {error && <p style={{ color: 'red' }}>{error}</p>}
+                    {error && <p className="mensaje-error">{error}</p>}
 
-                    <div style={{ marginTop: 12}}>
-                        <button type="submit" disabled={guardando}>
+                    <div className="modal-acciones">
+                        <button type="submit" className="primario" disabled={guardando}>
                             {guardando ? 'Guardando...' : 'Crear empresa'}
                         </button>
-                        <button type="button" onClick={onCerrar} style={{ marginLeft: 8}}>
+                        <button type="button" className="secundario" onClick={onCerrar}>
                             Cancelar
                         </button>
                     </div>

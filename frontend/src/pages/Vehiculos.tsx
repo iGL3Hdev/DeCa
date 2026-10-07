@@ -54,51 +54,73 @@ export function Vehiculos() {
     <div>
       <h1>Vehículos</h1>
 
-      <form onSubmit={crear}>
-        <input
-          placeholder="Matrícula"
-          value={form.matricula}
-          onChange={(e) => setForm({ ...form, matricula: e.target.value })}
-          required
-        />
-        <input
-          placeholder="Tipo"
-          value={form.tipo}
-          onChange={(e) => setForm({ ...form, tipo: e.target.value })}
-          required
-        />
-        <input
-          placeholder="Matrícula remolque (opcional)"
-          value={form.matriculaRemolque ?? ''}
-          onChange={(e) => setForm({ ...form, matriculaRemolque: e.target.value })}
-        />
-        <button type="submit">Añadir vehículo</button>
-      </form>
+      {error && <p className="mensaje-error">{error}</p>}
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <div className="card">
+        <form onSubmit={crear} className="form-inline">
+          <div className="campo">
+            <label>Matrícula</label>
+            <input
+              placeholder="1234ABC"
+              value={form.matricula}
+              onChange={(e) => setForm({ ...form, matricula: e.target.value })}
+              required
+            />
+          </div>
+          <div className="campo">
+            <label>Tipo</label>
+            <input
+              placeholder="Tractora"
+              value={form.tipo}
+              onChange={(e) => setForm({ ...form, tipo: e.target.value })}
+              required
+            />
+          </div>
+          <div className="campo">
+            <label>Matrícula remolque</label>
+            <input
+              placeholder="Opcional"
+              value={form.matriculaRemolque ?? ''}
+              onChange={(e) => setForm({ ...form, matriculaRemolque: e.target.value })}
+            />
+          </div>
+          <button type="submit" className="primario">Añadir vehículo</button>
+        </form>
+      </div>
 
-      {cargando ? (
-        <p>Cargando...</p>
-      ) : (
-        <Table
-          datos={vehiculos}
-          claveFila={(v) => v.id}
-          vacio="No hay vehículos todavía"
-          columnas={[
-            { encabezado: 'Matrícula', render: (v) => v.matricula },
-            { encabezado: 'Tipo', render: (v) => v.tipo },
-            { encabezado: 'Remolque', render: (v) => v.matriculaRemolque ?? '—' },
-            { encabezado: 'Estado', render: (v) => (v.activo ? 'Activo' : 'Baja') },
-            {
-              encabezado: 'Acciones',
-              render: (v) =>
-                v.activo && (
-                  <button onClick={() => darDeBaja(v.id)}>Dar de baja</button>
+      <div className="card">
+        {cargando ? (
+          <p className="texto-muted">Cargando...</p>
+        ) : (
+          <Table
+            datos={vehiculos}
+            claveFila={(v) => v.id}
+            vacio="No hay vehículos todavía"
+            columnas={[
+              { encabezado: 'Matrícula', render: (v) => v.matricula },
+              { encabezado: 'Tipo', render: (v) => v.tipo },
+              { encabezado: 'Remolque', render: (v) => v.matriculaRemolque ?? '—' },
+              {
+                encabezado: 'Estado',
+                render: (v) => (
+                  <span className={v.activo ? 'badge badge-generado' : 'badge badge-borrador'}>
+                    {v.activo ? 'Activo' : 'Baja'}
+                  </span>
                 ),
-            },
-          ]}
-        />
-      )}
+              },
+              {
+                encabezado: 'Acciones',
+                render: (v) =>
+                  v.activo && (
+                    <button className="secundario" onClick={() => darDeBaja(v.id)}>
+                      Dar de baja
+                    </button>
+                  ),
+              },
+            ]}
+          />
+        )}
+      </div>
     </div>
   )
 }

@@ -16,7 +16,7 @@ export function Table<T>({ columnas, datos, claveFila, vacio = 'Sin datos' }: Ta
   }
 
   return (
-    <table>
+    <table className="tabla">
       <thead>
         <tr>
           {columnas.map((columna) => (

@@ -134,18 +134,32 @@ Al cerrar cada fase: checklist y commit.
       redirige con `<Navigate replace>`, para que "Ver documento" no quede en el historial)
 - [x] Probado en navegador: generar DeCA desde el Dashboard, ver PDF embebido con QR, copiar URL,
       volver y comprobar transporte en GENERADO, "Ver documento" redirige correctamente
-- [ ] Commit
+- [x] Commit
 
 ## Fase 8.5 — Estilo visual del frontend
 Ahora mismo el frontend es HTML sin estilos (fondo negro por defecto del navegador, inputs y
 selects sueltos). Dejarlo para después de cerrar toda la funcionalidad (Fases 7 y 8) y antes de
 dockerizar, para no rehacer estilos sobre pantallas que aún pueden cambiar.
-- [ ] Decidir enfoque: CSS propio simple (cards, espaciados, tipografía) o una librería ligera
-      (p. ej. solo clases utilitarias)
-- [ ] Estilos base: fondo, tipografía, contenedor, navegación
-- [ ] Cards/tablas con bordes y espaciado para Dashboard y Vehículos
-- [ ] Formularios (TransporteForm, EmpresaModal) con aspecto cuidado
-- [ ] Commit
+- [x] Enfoque: CSS propio (variables en `:root`, sin librería) — `index.css` (base/tabla/card/
+      badges/modal/ficha) + `App.css` (nav)
+- [x] Estilos base: paleta violeta, tipografía de sistema, `.card`, `.tabla` con hover, badges de
+      estado (`.badge-borrador`/`.badge-generado`)
+- [x] Vehículos: formulario en `.form-inline` (ancho contenido, no 100%) + tabla en `.card`
+- [x] Dashboard: cabecera `.cabecera-pagina` (grid 3 columnas, título centrado + acción a la
+      derecha en la misma fila), tabla en `.card`, badges de estado
+- [x] TransporteForm: 3 cards temáticas con `.form-grid` (2 columnas), selects + botón "+ Nueva"
+      en fila (`.campo-con-boton`)
+- [x] EmpresaModal: estilos en línea sustituidos por `.modal-overlay`/`.modal-box`/`.modal-acciones`
+- [x] DocumentoDetalle: card de datos (`.ficha-grid`) + card sin padding para el iframe del PDF
+      (`.pdf-preview`)
+- [x] Títulos (`h1`): chip centrado (fondo violeta suave, texto violeta, mayúsculas) — con
+      excepción `.sin-mayusculas` para conservar "DeCA" con su tipografía mixta
+- [x] Nav (`App.tsx`/`App.css`): marca a dos tonos, enlaces como pastillas con estado activo
+      (`NavLink` + clase `.activo`)
+- [x] Acciones de solo-texto convertidas a botones reales ("Ver documento", "← Volver al
+      Dashboard") para consistencia visual
+- [x] Comprobado visualmente en navegador tras cada cambio
+- [x] Commit
 
 ## Fase 9 — Dockerización completa
 - [ ] `backend/Dockerfile` (multi-stage) y `application-docker.yml`

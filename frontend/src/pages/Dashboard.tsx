@@ -42,45 +42,58 @@ export function Dashboard() {
 
   return (
     <div>
-      <h1>Transportes</h1>
+      <div className="cabecera-pagina">
+        <h1>Transportes</h1>
+        <div className="cabecera-pagina__accion">
+          <Link to="/transportes/nuevo">
+            <button type="button" className="primario">+ Nuevo transporte</button>
+          </Link>
+        </div>
+      </div>
 
-      <Link to="/transportes/nuevo">
-        <button type="button">Nuevo transporte</button>
-      </Link>
+      {error && <p className="mensaje-error">{error}</p>}
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-
-      {cargando ? (
-        <p>Cargando...</p>
-      ) : (
-        <Table
-          datos={transportes}
-          claveFila={(t) => t.id}
-          vacio="No hay transportes todavía"
-          columnas={[
-            { encabezado: 'Fecha', render: (t) => t.fechaOperacion },
-            { encabezado: 'Cargador', render: (t) => t.cargador.nombre },
-            { encabezado: 'Transportista', render: (t) => t.transportista.nombre },
-            { encabezado: 'Vehículo', render: (t) => t.vehiculo.matricula },
-            { encabezado: 'Estado', render: (t) => t.estado },
-            {
-              encabezado: 'Acciones',
-              render: (t) =>
-                t.estado === 'BORRADOR' ? (
-                  <button
-                    type="button"
-                    disabled={generando === t.id}
-                    onClick={() => generarDeca(t.id)}
-                  >
-                    {generando === t.id ? 'Generando...' : 'Generar DeCA'}
-                  </button>
-                ) : (
-                  <Link to={`/documentos/por-transporte/${t.id}`}>Ver documento</Link>
+      <div className="card">
+        {cargando ? (
+          <p className="texto-muted">Cargando...</p>
+        ) : (
+          <Table
+            datos={transportes}
+            claveFila={(t) => t.id}
+            vacio="No hay transportes todavía"
+            columnas={[
+              { encabezado: 'Fecha', render: (t) => t.fechaOperacion },
+              { encabezado: 'Cargador', render: (t) => t.cargador.nombre },
+              { encabezado: 'Transportista', render: (t) => t.transportista.nombre },
+              { encabezado: 'Vehículo', render: (t) => t.vehiculo.matricula },
+              {
+                encabezado: 'Estado',
+                render: (t) => (
+                  <span className={`badge badge-${t.estado.toLowerCase()}`}>{t.estado}</span>
                 ),
-            },
-          ]}
-        />
-      )}
+              },
+              {
+                encabezado: 'Acciones',
+                render: (t) =>
+                  t.estado === 'BORRADOR' ? (
+                    <button
+                      type="button"
+                      className="primario"
+                      disabled={generando === t.id}
+                      onClick={() => generarDeca(t.id)}
+                    >
+                      {generando === t.id ? 'Generando...' : 'Generar DeCA'}
+                    </button>
+                  ) : (
+                    <Link to={`/documentos/por-transporte/${t.id}`}>
+                      <button type="button" className="secundario">Ver documento</button>
+                    </Link>
+                  ),
+              },
+            ]}
+          />
+        )}
+      </div>
     </div>
   )
 }
