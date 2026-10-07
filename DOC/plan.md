@@ -162,11 +162,20 @@ dockerizar, para no rehacer estilos sobre pantallas que aún pueden cambiar.
 - [x] Commit
 
 ## Fase 9 — Dockerización completa
-- [ ] `backend/Dockerfile` (multi-stage) y `application-docker.yml`
-- [ ] `frontend/Dockerfile` + `nginx.conf` con proxy a `/api`
-- [ ] `docker-compose.yml` con los 3 servicios
-- [ ] Probar el QR desde el móvil con la IP local
-- [ ] Commit
+- [x] `application-docker.yml` (perfil `docker`: datasource y `deca.base-url` sin default, exigidos
+      por variable de entorno; `directorio-documentos` por defecto `/app/documentos`)
+- [x] `backend/Dockerfile` (multi-stage: build con Maven+JDK, imagen final solo JRE Alpine)
+- [x] `frontend/Dockerfile` (multi-stage: build con Node, imagen final nginx) + `nginx.conf`
+      (proxy `/api/` → `http://backend:8080/api/`, `try_files` para que las rutas de React
+      Router sobrevivan a un recargado de página)
+- [x] `docker-compose.yml` con los 3 servicios (mysql/backend/frontend), puerto MySQL 3308,
+      `depends_on: condition: service_healthy`, volúmenes `mysql_data` y `deca_pdfs`
+- [x] `docker compose up -d --build`: los 3 contenedores arriba y sanos, flujo completo probado
+      dentro de Docker (crear vehículo/transporte, generar DeCA, ver PDF)
+- [x] Probado el QR desde el móvil con `DECA_BASE_URL=http://<IP_local>:8080` (fix de una errata
+      en `.env`: faltaba `http://` y el puerto era 8000 en vez de 8080)
+- [x] Datos de prueba limpiados (BD a 0, PDFs borrados del volumen `deca_pdfs`)
+- [x] Commit
 
 ## Fase 10 — Tests
 - [ ] JUnit + MockMvc (servicios y controladores clave)
