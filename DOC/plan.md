@@ -178,9 +178,19 @@ dockerizar, para no rehacer estilos sobre pantallas que aún pueden cambiar.
 - [x] Commit
 
 ## Fase 10 — Tests
-- [ ] JUnit + MockMvc (servicios y controladores clave)
-- [ ] Opcional: Testcontainers, Vitest
-- [ ] Commit
+- [x] `VehiculoServiceTest` (unitario, Mockito `@Mock`/`@InjectMocks`, sin Spring): normalización
+      de matrícula, 409 por duplicado, 404 por id inexistente, baja sin borrado
+- [x] `VehiculoControllerTest` (`@WebMvcTest` + MockMvc + `@MockitoBean`): 201/400/409/404 a
+      través de la capa HTTP real, sin tocar BD
+- [x] `FechasCoherentesValidatorTest` (sin Spring, `new` directo): fecha carga < descarga,
+      fechas iguales, fecha carga > descarga (inválido), fecha nula (válido, delegado a `@NotNull`)
+- [x] Nota Spring Boot 4.1.1: paquetes de test reorganizados — `@WebMvcTest` ahora en
+      `org.springframework.boot.webmvc.test.autoconfigure`; `@MockBean` → `@MockitoBean`
+      (`org.springframework.test.context.bean.override.mockito`)
+- [x] Suite completa verificada: `Tests run: 14, Failures: 0, Errors: 0` (con MySQL arrancado,
+      por el `contextLoads` de `@SpringBootTest` heredado de la Fase 1)
+- [x] Opcional (no hecho): Testcontainers, Vitest
+- [x] Commit
 
 ## Fuera del MVP (más adelante)
 - Versionado y trazabilidad de documentos
