@@ -195,7 +195,49 @@ dockerizar, para no rehacer estilos sobre pantallas que aún pueden cambiar.
 ## Fuera del MVP (más adelante)
 - Versionado y trazabilidad de documentos
 - Autenticación con Spring Security (`permitAll` en `/api/deca/**`)
-- Despliegue en la VM
+- [x] Despliegue en la VM — ver detalle abajo
 
 ## Verificación final del MVP
 Crear transporte → generar DeCA → abrir la URL pública en el móvil y ver el PDF con el QR.
+Verificado en local (Fase 9) y en la VM de despliegue (más abajo).
+
+---
+
+## Despliegue en VM (fuera del MVP)
+
+VM Linux propia ("homelab", con otros proyectos ya corriendo ahí: ecomonitor, gestma,
+practica-compose), accesible por SSH. Red NAT de VirtualBox con reenvío de puertos — la VM no
+tiene IP visible desde la LAN, solo el PC Windows (host) la tiene.
+
+**Pasos:**
+- [x] Repo clonado en la VM vía SSH (`git clone` desde GitHub, `~/DeCa`)
+- [x] `.env` propio en la VM (credenciales distintas a las de local)
+- [x] `DECA_BASE_URL` = IP del PC **Windows** (no la de la VM, que es `10.0.2.15` y no es
+      alcanzable desde fuera) + `:8080`
+- [x] Dos reglas de reenvío añadidas en VirtualBox (Adaptador → Avanzadas → Reenvío de puertos),
+      junto a las ya existentes de SSH (22→22) y HTTP (80→80): backend `8080→8080`, frontend
+      `5173→5173`
+- [x] `docker compose up -d --build` y, tras incidencias, `docker compose up -d`
+- [x] Probado desde el navegador del PC Windows (`http://localhost:5173/`): alta de datos,
+      generación de DeCA, todo correcto
+- [ ] Pendiente: probar el escaneo del QR desde el móvil en la misma Wi-Fi que el PC Windows
+      (no se pudo probar en esta sesión)
+
+**Incidencias (y por qué quedan anotadas):**
+1. **VM congelada por completo** al lanzar `--build` del backend y el frontend a la vez
+   (confirmado con CPU al 0% en el Administrador de tareas de Windows, ni el teclado respondía
+   en la consola de VirtualBox). Solución: apagado forzado desde VirtualBox y reinicio.
+   **Para la próxima vez: construir las imágenes una a una** (`docker compose build backend`,
+   luego `docker compose build frontend`), no las dos en paralelo con `--build`, sobre todo
+   compartiendo la VM con otros proyectos.
+2. **`deca-mysql` en bucle de reinicio** tras el reinicio de la VM: el contenedor se había
+   creado en el primer intento, antes de que existiera el `.env`, con variables vacías
+   (`Database is uninitialized and password option is not specified`). Solución:
+   `docker compose down -v` (volumen vacío, sin pérdida real) + `docker compose up -d` limpio.
+3. **El backend tarda ~3 minutos en arrancar** en esta VM (10-25 s en local). Un primer intento
+   de usar la app dio **502 Bad Gateway** por probar antes de que el backend terminara de
+   levantar — no es un fallo de configuración, solo falta de paciencia con una VM lenta/compartida.
+
+## Cierre del proyecto
+Las 10 fases del MVP y el despliegue en VM quedan completos. Proyecto de aprendizaje dado por
+terminado.
